@@ -23,8 +23,12 @@ async function main() {
   console.log("Db connection established");
 }
 
+app.use("/" , (req ,res)=>{
+  res.json("Welcome to Quiz web API service");
+})
 app.use("/", router);
 app.use("/", QuizRouter);
+
 
 app.listen(process.env.PORT, () => {
   console.log("listening on port ", process.env.PORT);
