@@ -73,13 +73,14 @@ router.post("/quiz/submit", (req, res) => {
   const newToken = token.split(" ")[1];
 
   jwt.verify(newToken, process.env.SECKET_KEY, async (err, decoded) => {
+    console.log("Decoded token: ", decoded);
     if (err) {
-      console.log(err);
       res.status(400).json("invalid Token");
       // Handle invalid token here
     } else {
+      console.log("decoded : ",decoded);
       // Token is valid, you can access `decoded` here
-      const user = await UserModel.findOne({ email: decoded });
+      const user = await UserModel.findOne({ email: decoded.email });
       const questions = await QuestionModel.find({ language: "English" }).limit(
         10
       );

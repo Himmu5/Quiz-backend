@@ -42,7 +42,7 @@ router.post("/Signup", async (req, res) => {
 router.post("/Signin", async (req, res) => {
   // Extract user data from the request body
   const reqData = req.body;
-  const token = jwt.sign(reqData.email, process.env.SECKET_KEY);
+  const token = jwt.sign({email : reqData.email } , process.env.SECKET_KEY);
   if (token) {
     const user = await UserModel.findOne({ email: reqData.email });
 
@@ -72,6 +72,7 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).json({ error: "Invalid Token" });
     }
+    console.log("Decoded token: " + decoded);
     req.user = decoded; // Attach user information to the request
     next(); // Continue to the next middleware or route handler
   });
