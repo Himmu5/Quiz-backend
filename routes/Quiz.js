@@ -7,16 +7,17 @@ const { UserModel } = require("../model/User");
 const { scoreCalculator } = require("../controller/score");
 const { scoreModel } = require("../model/QuizResult.js");
 
-// const data = {
-//   text: "'Do you like it?'",
-//   options: [
-//     { text: "'Yes, I like.'", isCorrect: false },
-//     { text: "'Yes, I do.'", isCorrect: true },
-//     // { text: "in", isCorrect: true },
-//   ],
-//   language: "English",
-//   diffeculty: "Hard",
-// };
+const data = {
+  text: "हिंदी में संज्ञा के कितने विभक्ति होते हैं?",
+  options: [
+    { text: "1", isCorrect: false },
+    { text: "2", isCorrect: false },
+    { text: "3", isCorrect: true },
+    { text: "4", isCorrect: false }
+  ],
+  language: "Hindi",
+  diffeculty: "Hard",
+};
 
 // Route to create a new question
 router.post("/questions", async (req, res) => {
@@ -81,7 +82,7 @@ router.post("/quiz/submit", (req, res) => {
       console.log("decoded : ",decoded);
       // Token is valid, you can access `decoded` here
       const user = await UserModel.findOne({ email: decoded.email });
-      const questions = await QuestionModel.find({ language: "English" }).limit(
+      const questions = await QuestionModel.find({ language: data.lang }).limit(
         10
       );
       const score = scoreCalculator(questions, data.userResponse);
